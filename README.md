@@ -1,5 +1,19 @@
 # ecommerce_ONEDAO
 
+first clone the project and install all the require packages
+
+bakend run command : npm run dev
+
+frontend run command : first need to change directory --- 
+
+cd .\onedao\
+then 
+npm run dev
+
+
+
+
+
 {
 "info": {
 "\_postman_id": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
