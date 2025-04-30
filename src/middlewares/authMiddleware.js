@@ -26,8 +26,17 @@ const authenticate = (...allowedRoles) => {
       // Verify token
       const decoded = verifyToken(token);
 
-      // Fetch user from DB
-      const user = await User.findByPk(decoded.id); // Use findByPk for Sequelize
+      // Extract the actual ID value
+      // Your token has nested structure where id is an object containing user details
+      const userId = decoded.id.id; // Get the numeric ID value from the nested structure
+
+      if (!userId) {
+        throw new UnauthorizedError("Invalid token payload");
+      }
+
+      // Fetch user from DB using the extracted numeric ID
+      const user = await User.findByPk(userId);
+
       if (!user) {
         throw new UnauthorizedError("User no longer exists");
       }
