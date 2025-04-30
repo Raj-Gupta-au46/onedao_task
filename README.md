@@ -1,343 +1,250 @@
 # ecommerce_ONEDAO
 
-first clone the project and install all the require packages
+A full-stack e-commerce application built with Node.js, Express, PostgreSQL, and React.
 
-bakend run command : npm run dev
+## Table of Contents
 
-frontend run command : first need to change directory --- 
+- [Overview](#overview)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+- [API Documentation](#api-documentation)
+  - [Authentication Endpoints](#authentication-endpoints)
+  - [Product Endpoints](#product-endpoints)
+  - [Health Check](#health-check)
+- [Environment Variables](#environment-variables)
+- [Tech Stack](#tech-stack)
+- [Contributing](#contributing)
+- [License](#license)
 
-cd .\onedao\
-then 
+## Overview
+
+ecommerce_ONEDAO is a modern e-commerce platform featuring user authentication with OTP verification, product management, and more. The application follows a RESTful architecture and incorporates best practices for security and performance.
+
+## Features
+
+- User authentication with JWT
+- Email verification with OTP
+- Product management (CRUD operations)
+- Role-based access control (admin/user)
+- Pagination, sorting, and filtering
+- Health check endpoint
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- PostgreSQL database
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/ecommerce_ONEDAO.git
+cd ecommerce_ONEDAO
+```
+
+2. Install backend dependencies:
+
+```bash
+npm install
+```
+
+3. Install frontend dependencies:
+
+```bash
+cd onedao
+npm install
+```
+
+4. Configure your environment variables (see [Environment Variables](#environment-variables))
+
+## Usage
+
+### Backend
+
+To start the backend server in development mode:
+
+```bash
 npm run dev
+```
 
+The server will be running at http://localhost:3000 by default.
 
+### Frontend
 
+To start the frontend development server:
 
+```bash
+cd onedao
+npm run dev
+```
 
-{
-"info": {
-"\_postman_id": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
-"name": "Node.js API with PostgreSQL",
-"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-"description": "Postman collection for the Node.js + Express + PostgreSQL RESTful API"
-},
-"item": [
-{
-"name": "Authentication",
-"item": [
-{
-"name": "Register User",
-"request": {
-"method": "POST",
-"header": [],
-"body": {
-"mode": "raw",
-"raw": "{\n \"name\": \"John Doe\",\n \"email\": \"john@example.com\",\n \"password\": \"password123\",\n \"phone\": \"1234567890\"\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{base_url}}/api/v1/auth/register",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"auth",
-"register"
-]
-}
-},
-"response": []
-},
-{
-"name": "Verify OTP",
-"request": {
-"method": "POST",
-"header": [],
-"body": {
-"mode": "raw",
-"raw": "{\n \"userId\": 1,\n \"otp\": \"123456\"\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{base_url}}/api/v1/auth/verify-otp",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"auth",
-"verify-otp"
-]
-}
-},
-"response": []
-},
-{
-"name": "Login",
-"request": {
-"method": "POST",
-"header": [],
-"body": {
-"mode": "raw",
-"raw": "{\n \"email\": \"john@example.com\",\n \"password\": \"password123\"\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{base_url}}/api/v1/auth/login",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"auth",
-"login"
-]
-}
-},
-"response": []
-},
-{
-"name": "Resend OTP",
-"request": {
-"method": "POST",
-"header": [],
-"body": {
-"mode": "raw",
-"raw": "{\n \"userId\": 1\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{base_url}}/api/v1/auth/resend-otp",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"auth",
-"resend-otp"
-]
-}
-},
-"response": []
-}
-]
-},
-{
-"name": "Products",
-"item": [
-{
-"name": "Get All Products",
-"request": {
-"method": "GET",
-"header": [
-{
-"key": "Authorization",
-"value": "Bearer {{auth_token}}"
-}
-],
-"url": {
-"raw": "{{base_url}}/api/v1/products?page=1&limit=10&sortBy=created_at&sortOrder=DESC",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"products"
-],
-"query": [
-{
-"key": "page",
-"value": "1"
-},
-{
-"key": "limit",
-"value": "10"
-},
-{
-"key": "sortBy",
-"value": "created_at"
-},
-{
-"key": "sortOrder",
-"value": "DESC"
-}
-]
-}
-},
-"response": []
-},
-{
-"name": "Create Product",
-"request": {
-"method": "POST",
-"header": [
-{
-"key": "Authorization",
-"value": "Bearer {{auth_token}}"
-}
-],
-"body": {
-"mode": "raw",
-"raw": "{\n \"name\": \"Premium Coffee\",\n \"description\": \"Arabica coffee beans\",\n \"price\": 12.99\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{base_url}}/api/v1/products",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"products"
-]
-}
-},
-"response": []
-},
-{
-"name": "Get Single Product",
-"request": {
-"method": "GET",
-"header": [
-{
-"key": "Authorization",
-"value": "Bearer {{auth_token}}"
-}
-],
-"url": {
-"raw": "{{base_url}}/api/v1/products/1",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"products",
-"1"
-]
-}
-},
-"response": []
-},
-{
-"name": "Update Product",
-"request": {
-"method": "PUT",
-"header": [
-{
-"key": "Authorization",
-"value": "Bearer {{auth_token}}"
-}
-],
-"body": {
-"mode": "raw",
-"raw": "{\n \"name\": \"Premium Coffee Updated\",\n \"description\": \"Arabica coffee beans from Ethiopia\",\n \"price\": 14.99\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{base_url}}/api/v1/products/1",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"products",
-"1"
-]
-}
-},
-"response": []
-},
-{
-"name": "Delete Product",
-"request": {
-"method": "DELETE",
-"header": [
-{
-"key": "Authorization",
-"value": "Bearer {{auth_token}}"
-}
-],
-"url": {
-"raw": "{{base_url}}/api/v1/products/1",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"api",
-"v1",
-"products",
-"1"
-]
-}
-},
-"response": []
-}
-]
-},
-{
-"name": "Health Check",
-"item": [
-{
-"name": "Health Check",
-"request": {
-"method": "GET",
-"header": [],
-"url": {
-"raw": "{{base_url}}/health",
-"host": [
-"{{base_url}}"
-],
-"path": [
-"health"
-]
-}
-},
-"response": []
-}
-]
-}
-],
-"variable": [
-{
-"key": "base_url",
-"value": "http://localhost:3000"
-},
-{
-"key": "auth_token",
-"value": "your_jwt_token_here"
-}
-]
-}
+The frontend will be available at http://localhost:5173 (or the port specified by your React configuration).
+
+## API Documentation
+
+### Authentication Endpoints
+
+#### Register User
+- **URL**: `/api/v1/auth/register`
+- **Method**: `POST`
+- **Body**:
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123",
+    "phone": "1234567890"
+  }
+  ```
+
+#### Verify OTP
+- **URL**: `/api/v1/auth/verify-otp`
+- **Method**: `POST`
+- **Body**:
+  ```json
+  {
+    "userId": 1,
+    "otp": "123456"
+  }
+  ```
+
+#### Login
+- **URL**: `/api/v1/auth/login`
+- **Method**: `POST`
+- **Body**:
+  ```json
+  {
+    "email": "john@example.com",
+    "password": "password123"
+  }
+  ```
+
+#### Resend OTP
+- **URL**: `/api/v1/auth/resend-otp`
+- **Method**: `POST`
+- **Body**:
+  ```json
+  {
+    "userId": 1
+  }
+  ```
+
+### Product Endpoints
+
+#### Get All Products
+- **URL**: `/api/v1/products`
+- **Method**: `GET`
+- **Headers**: `Authorization: Bearer <token>`
+- **Query Parameters**:
+  - `page`: Page number (default: 1)
+  - `limit`: Items per page (default: 10)
+  - `sortBy`: Field to sort by (default: created_at)
+  - `sortOrder`: Sort order (ASC/DESC, default: DESC)
+
+#### Create Product
+- **URL**: `/api/v1/products`
+- **Method**: `POST`
+- **Headers**: `Authorization: Bearer <token>`
+- **Body**:
+  ```json
+  {
+    "name": "Premium Coffee",
+    "description": "Arabica coffee beans",
+    "price": 12.99
+  }
+  ```
+
+#### Get Single Product
+- **URL**: `/api/v1/products/:id`
+- **Method**: `GET`
+- **Headers**: `Authorization: Bearer <token>`
+
+#### Update Product
+- **URL**: `/api/v1/products/:id`
+- **Method**: `PUT`
+- **Headers**: `Authorization: Bearer <token>`
+- **Body**:
+  ```json
+  {
+    "name": "Premium Coffee Updated",
+    "description": "Arabica coffee beans from Ethiopia",
+    "price": 14.99
+  }
+  ```
+
+#### Delete Product
+- **URL**: `/api/v1/products/:id`
+- **Method**: `DELETE`
+- **Headers**: `Authorization: Bearer <token>`
+
+### Health Check
+
+#### Health Check
+- **URL**: `/health`
+- **Method**: `GET`
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Server
+PORT=3000
+NODE_ENV=development
+
+# Database
+DB_HOST=localhost
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_NAME=onedao_ecommerce
+DB_PORT=5432
+
+# JWT
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRE=24h
+
+# Email (for OTP delivery)
+EMAIL_SERVICE=smtp
+EMAIL_HOST=smtp.example.com
+EMAIL_PORT=587
+EMAIL_USER=your_email@example.com
+EMAIL_PASSWORD=your_email_password
+EMAIL_FROM=noreply@onedao.com
+```
+
+## Tech Stack
+
+- **Backend**:
+  - Node.js
+  - Express
+  - PostgreSQL
+  - Sequelize ORM
+  - JSON Web Tokens (JWT)
+  - Nodemailer
+
+- **Frontend**:
+  - React.js
+  - React Router
+  - Axios
+  - React Context API
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
