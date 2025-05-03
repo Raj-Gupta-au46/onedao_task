@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../routes/path";
+import { registerUser } from "../../actions/register";
 
 export function Register() {
   // eslint-disable-next-line no-unused-vars
@@ -18,7 +19,7 @@ export function Register() {
   const ADMIN_EMAIL = "admin@example.com";
   const ADMIN_PASSWORD = "Admin123!";
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!email || !password || !confirmPassword) {
       setErrorMessage("All fields are required");
       return;
@@ -40,6 +41,13 @@ export function Register() {
     if (password.length < 8) {
       setErrorMessage("Password must be at least 8 characters long");
       return;
+    }
+
+    const res = await registerUser(email, password, confirmPassword);
+    if (res?.success) {
+      navigate(paths.auth.login);
+    } else {
+      setErrorMessage(res?.message ?? "Unable to register");
     }
 
     setErrorMessage("");

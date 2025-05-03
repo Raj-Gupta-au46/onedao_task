@@ -1,7 +1,8 @@
 import axios from "axios";
+import { config } from "../../config";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: config.serverUlr,
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,5 +14,6 @@ export default axiosInstance;
 export const endpoints = {
   auth: {
     login: "/auth/login",
+    register: "/auth/register",
   },
 };
