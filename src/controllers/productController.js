@@ -9,7 +9,7 @@ const getAllProducts = async (req, res, next) => {
       limit = 10,
       sortBy = "created_at",
       sortOrder = "DESC",
-    } = req.query;
+    } = req?.query;
 
     // Get products with pagination
     const products = await Product.findAll(req.user.id, {

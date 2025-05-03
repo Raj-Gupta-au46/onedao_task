@@ -54,10 +54,13 @@ const register = async (req, res, next) => {
       role,
     });
 
+    console.log("user");
+
     res.status(201).json({
       success: true,
       message: "User registered successfully",
       userId: user.id,
+      user: user,
     });
   } catch (err) {
     next(err);

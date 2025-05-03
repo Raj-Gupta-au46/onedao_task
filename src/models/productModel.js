@@ -39,7 +39,7 @@ const Product = Sequelize.define(
 );
 
 // Sync the model (recommended to control force externally)
-Sequelize.sync({ force: false })
+Sequelize.sync({ force: true })
   .then(() => console.log("✅ Product model synced"))
   .catch((error) => console.error("❌ Product model sync error:", error));
 

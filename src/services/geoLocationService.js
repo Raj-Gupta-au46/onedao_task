@@ -8,6 +8,7 @@ const getCountryFromIP = async (ip) => {
     }
 
     const response = await axios.get(`http://ip-api.com/json/${ip}`);
+
     return response.data.country;
   } catch (error) {
     console.error("Error fetching country from IP:", error);

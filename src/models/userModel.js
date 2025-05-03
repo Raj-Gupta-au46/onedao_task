@@ -4,6 +4,12 @@ const Sequelize = require("../config/db").sequelize;
 const User = Sequelize.define(
   "User",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false, // <- MUST be false
+    },
     email: {
       type: DataTypes.STRING(100),
       allowNull: false,
@@ -37,8 +43,8 @@ const User = Sequelize.define(
   }
 );
 
-// Sync the model (only once or controlled externally)
-Sequelize.sync({ force: true })
+// Sync the model (only use `alter: true` in dev)
+Sequelize.sync({ force: false })
   .then(() => console.log("✅ User model synced"))
   .catch((error) => console.log("❌ User model sync error:", error));
 
