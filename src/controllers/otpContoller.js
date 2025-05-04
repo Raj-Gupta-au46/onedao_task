@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const UserOtp = require("../models/otpModel");
 const { Op } = require("sequelize");
+const { sendOTP } = require("../services/emailService");
 
 // Helper to generate a 6-digit OTP
 const generateOTP = () =>
@@ -10,7 +11,7 @@ const generateOTP = () =>
 const OTP_EXPIRY_MINUTES = 15;
 
 const sendOtp = async (req, res) => {
-  const { email, type } = req.body;
+  const { email } = req.body;
 
   if (!email || !type) {
     return res.status(400).json({ message: "Email and type are required." });
@@ -26,9 +27,10 @@ const sendOtp = async (req, res) => {
     await UserOtp.create({
       user_id: user.id,
       otp,
-      type,
       expires_at: expiresAt,
     });
+
+    await sendOTP(email, otp); // Send email here
 
     // In real life, you'd send the OTP via email or SMS
     console.log(`OTP for ${email}: ${otp}`);
