@@ -52,7 +52,6 @@ const getProduct = async (req, res, next) => {
 };
 
 const createProduct = async (req, res, next) => {
-  console.log("hiiiiiiiiiiii");
   try {
     const { name, description, price } = req.body;
 
