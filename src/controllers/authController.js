@@ -11,11 +11,70 @@ const { sendOTP } = require("../services/emailService");
 const { Op } = require("sequelize");
 const { generateToken } = require("../config/jwt");
 
+// const register = async (req, res, next) => {
+//   try {
+//     const { email, password, confirmPassword } = req.body;
+
+//     let role = "admin";
+//     // Validate input
+//     const { error } = validateRegisterInput({
+//       email,
+//       password,
+//       confirmPassword,
+//     });
+//     if (error) throw new BadRequestError(error.details[0].message);
+
+//     // Get country from IP
+//     const ip = req.ip || req.connection.remoteAddress;
+//     const country = await getCountryFromIP(ip);
+
+//     const restrictedCountries = [
+//       "Syria",
+//       "Afghanistan",
+//       "Iran",
+//       "North Korea",
+//       "Cuba",
+//     ];
+//     if (restrictedCountries.includes(country)) {
+//       throw new UnauthorizedError(
+//         "Registration is not allowed from your country"
+//       );
+//     }
+
+//     // Check if user exists
+//     // const existingUser = await User.findOne({ where: { email } });
+//     // if (existingUser) throw new BadRequestError("Email already in use");
+
+//     // Create user
+
+//     const user = await User.create({
+//       email,
+//       password,
+//       country,
+//       role,
+//     });
+
+//     console.log("user");
+
+//     res.status(201).json({
+//       success: true,
+//       message: "User registered successfully",
+//       userId: user.id,
+//       user: user,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+const generateOTP = () =>
+  Math.floor(100000 + Math.random() * 900000).toString();
+
 const register = async (req, res, next) => {
   try {
     const { email, password, confirmPassword } = req.body;
-
     let role = "admin";
+
     // Validate input
     const { error } = validateRegisterInput({
       email,
@@ -41,52 +100,69 @@ const register = async (req, res, next) => {
       );
     }
 
-    // Check if user exists
-    // const existingUser = await User.findOne({ where: { email } });
-    // if (existingUser) throw new BadRequestError("Email already in use");
+    // Check if user already exists
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) throw new BadRequestError("Email already in use");
 
-    // Create user
+    // Generate OTP
+    const otp = generateOTP();
 
+    // Create user with OTP and is_verified = false
     const user = await User.create({
       email,
       password,
       country,
       role,
+      is_verified: false,
+      otp, // save OTP in user table
     });
 
-    console.log("user");
+    // Send OTP via email
+    await sendOTP(email, otp);
 
     res.status(201).json({
       success: true,
-      message: "User registered successfully",
+      message: "User registered successfully. OTP sent to email.",
       userId: user.id,
-      user: user,
     });
   } catch (err) {
     next(err);
   }
 };
+
 const verifyOTP = async (req, res, next) => {
   try {
     const { userId, otp } = req.body;
 
+    let id = userId;
+
     // Validate input
-    const { error } = validateOTP({ userId, otp });
-    if (error) throw new BadRequestError(error.details[0].message);
+    // const { error } = validateOTP({ userId, otp });
+    // if (error) throw new BadRequestError(error.details[0].message);
 
-    // Verify OTP
-    const user = await User.verifyOTP(userId, otp);
-    if (!user) throw new BadRequestError("Invalid or expired OTP");
+    // Find the user
+    const user = await User.findByPk(id);
+    if (!user) throw new NotFoundError("User not found");
 
-    // Generate token
-    const token = await User.generateAuthToken(user);
+    // Check OTP match
+    if (user.otp !== otp) {
+      throw new UnauthorizedError("Invalid OTP");
+    }
+
+    // Optionally: check expiration if you added `otp_expires_at`
+
+    // Update user: mark as verified and clear OTP
+    user.is_verified = true;
+    user.otp = null;
+    await user.save();
+
+    // Generate auth token (replace this with your actual token logic)/ assuming this function exists
 
     res.status(200).json({
       success: true,
-      token,
+      message: "OTP verified successfully",
       user: {
         id: user.id,
-        name: user.name,
         email: user.email,
         isVerified: user.is_verified,
       },

@@ -8,7 +8,7 @@ const User = Sequelize.define(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false, // <- MUST be false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING(100),
@@ -32,6 +32,15 @@ const User = Sequelize.define(
       validate: {
         isIn: [["user", "admin"]],
       },
+    },
+    is_verified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    otp: {
+      type: DataTypes.STRING(6), // 6-digit OTP as string
+      allowNull: true,
     },
   },
   {

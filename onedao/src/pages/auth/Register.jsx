@@ -45,7 +45,7 @@ export function Register() {
 
     const res = await registerUser(email, password, confirmPassword);
     if (res?.success) {
-      navigate(paths.auth.login);
+      navigate(paths.auth.otp);
     } else {
       setErrorMessage(res?.message ?? "Unable to register");
     }
