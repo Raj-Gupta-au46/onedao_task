@@ -4,6 +4,8 @@ const UserOtp = require("./otpModel");
 
 // correcting the model
 
+// model code update
+
 module.exports = {
   User,
   Product,
